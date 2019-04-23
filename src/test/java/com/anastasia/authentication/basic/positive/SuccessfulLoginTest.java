@@ -44,13 +44,12 @@ public class SuccessfulLoginTest {
         Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
         String url = driver.getCurrentUrl();
 
-        if (url.equals("https://passport.yandex.ru/auth/phone") || url.equals("https://passport.yandex.ru/auth/welcome")) {
-            Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
+        if (url.equals("https://passport.yandex.ru/auth/phone")) {
             WebElement buttonLater = driver.findElement(By.linkText("Не сейчас"));
             buttonLater.click();
+            Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
         }
 
-        Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
         url = driver.getCurrentUrl();
         Assert.assertEquals("https://passport.yandex.ru/profile",url);
     }

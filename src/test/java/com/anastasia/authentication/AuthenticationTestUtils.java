@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class AuthenticationTestUtils {
-    public static final int PAGE_RELOAD_DELAY = 200;  // ms PAGE_RELOAD_DELAY for page reload
+    public static final int PAGE_RELOAD_DELAY = 300;  // ms PAGE_RELOAD_DELAY for page reload
     public static final int LONG_DELAY = 5000;
 
     private static File file = new File("src\\test\\resources\\config.properties");
