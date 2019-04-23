@@ -10,22 +10,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Properties;
+
 public class SuccessfulLoginTest {
     private ChromeDriver driver;
-    private WebDriverWait wait;
+    private Properties properties;
 
     @Before
-    public void setUp() {
-        AuthenticationTestUtils.setProperties(AuthenticationTestUtils.properties);
-        System.setProperty("webdriver.chrome.driver", AuthenticationTestUtils.properties.getProperty("chrome.driver.path"));
+    public void setUp() throws InterruptedException {
+        properties = AuthenticationTestUtils.getProperties();
+        System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
         driver = new ChromeDriver();
-        driver.get(AuthenticationTestUtils.properties.getProperty("authentication.url"));
+        driver.get(properties.getProperty("main.url") + "/auth");
+        Thread.sleep(AuthenticationTestUtils.PAGE_LOAD_DELAY);
     }
 
     @Test
     public void successfulLogin() throws InterruptedException {
         WebElement loginField = driver.findElement(By.id("passp-field-login"));
-        loginField.sendKeys(AuthenticationTestUtils.properties.getProperty("email.success.test"));
+        loginField.sendKeys(properties.getProperty("email.success.test"));
 
         Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
 
@@ -33,10 +36,10 @@ public class SuccessfulLoginTest {
         loginButton.click();
 
         Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
-        Assert.assertFalse("There is no mistake", driver.getPageSource().contains("Такого аккаунта нет"));
+        Assert.assertFalse("There should not be a mistake written saying there is no such account as the account is valid", driver.getPageSource().contains(AuthenticationTestUtils.NO_SUCH_ACCOUNT_ERROR_TEXT));
 
         WebElement passwordField = driver.findElement(By.id("passp-field-passwd"));
-        passwordField.sendKeys(AuthenticationTestUtils.properties.getProperty("password.success.test"));
+        passwordField.sendKeys(properties.getProperty("password.success.test"));
 
         loginButton = driver.findElement(By.className("passp-sign-in-button"));
         loginButton.click();
@@ -44,19 +47,27 @@ public class SuccessfulLoginTest {
         Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
         String url = driver.getCurrentUrl();
 
-        if (url.equals("https://passport.yandex.ru/auth/phone")) {
-            WebElement buttonLater = driver.findElement(By.linkText("Не сейчас"));
+        if (url.equals(properties.getProperty("main.url") + "/auth/phone")) {
+            WebElement buttonLater = driver.findElement(By.linkText(AuthenticationTestUtils.NOT_NOW_LINK_TEXT));
             buttonLater.click();
             Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
         }
 
+        int iterations = 0;
+        while (url.equals(properties.getProperty("main.url") + "/auth/welcome") && iterations < 5)
+        {
+            iterations++;
+            Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
+            url = driver.getCurrentUrl();
+        }
+
         url = driver.getCurrentUrl();
-        Assert.assertEquals("https://passport.yandex.ru/profile",url);
+        Assert.assertEquals("Test should go to a personal account page after successful login", properties.getProperty("main.url") + "/profile", url);
     }
 
     @After
-    public void tearDown() throws Exception {
-        Thread.sleep(AuthenticationTestUtils.LONG_DELAY);
+    public void tearDown() {
+        //Thread.sleep(AuthenticationTestUtils.LONG_DELAY);
         if (driver != null) {
             driver.quit();
         }

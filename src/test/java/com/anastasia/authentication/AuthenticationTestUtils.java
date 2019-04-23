@@ -12,18 +12,24 @@ import java.util.Properties;
 
 public class AuthenticationTestUtils {
     public static final int PAGE_RELOAD_DELAY = 300;  // ms PAGE_RELOAD_DELAY for page reload
+    public static final int PAGE_LOAD_DELAY = 3000;  // ms PAGE_RELOAD_DELAY for page reload
     public static final int LONG_DELAY = 5000;
 
-    private static File file = new File("src\\test\\resources\\config.properties");
-    public static Properties properties = new Properties();
+    public static final String NO_SUCH_ACCOUNT_ERROR_TEXT = "Такого аккаунта нет";
+    public static final String FORGOT_PASSWORD_LINK_TEXT = "Не помню логин";
+    public static final String ENTER_TO_CONTINUE_INSTRUCTION_TEXT = "Войдите, чтобы продолжить";
+    public static final String RU_LINK_TEXT = "Ru";
+    public static final String NOT_NOW_LINK_TEXT = "Не сейчас";
 
-    public static void setProperties(Properties properties) {
-        AuthenticationTestUtils.properties = properties;
+    public static Properties getProperties() {
+        Properties properties = new Properties();
+        File file = new File("src\\test\\resources\\config.properties");
         try {
             properties.load(new FileReader(file));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return properties;
     }
 
     private AuthenticationTestUtils() { }
