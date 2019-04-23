@@ -18,7 +18,7 @@ public class UnregisteredEmailTest {
         driver.get(AuthenticationTestUtils.YANDEX_PASSPORT_URL + "/auth");
         Thread.sleep(AuthenticationTestUtils.PAGE_LOAD_DELAY);
     }
-
+    // User gets a reject if email he entered is not registered
     @Test
     public void nonExistingEmail() throws InterruptedException {
         driver.findElement(By.id("passp-field-login")).sendKeys(AuthenticationTestUtils.EMAIL_FAIL_TEST);

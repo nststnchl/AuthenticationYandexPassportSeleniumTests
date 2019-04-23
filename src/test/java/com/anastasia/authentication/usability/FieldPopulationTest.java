@@ -21,6 +21,7 @@ public class FieldPopulationTest {
         Thread.sleep(AuthenticationTestUtils.PAGE_LOAD_DELAY);
     }
 
+    //Partially checking some of fields/buttons from a starter page for presence, editability and clickableness
     @Test
     public void checkAllNeededFieldsArePolulated() {
         WebElement loginField = driver.findElement(By.id("passp-field-login"));

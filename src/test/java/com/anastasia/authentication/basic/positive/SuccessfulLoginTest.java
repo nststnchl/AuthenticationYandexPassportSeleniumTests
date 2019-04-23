@@ -24,7 +24,7 @@ public class SuccessfulLoginTest {
         driver.get(AuthenticationTestUtils.YANDEX_PASSPORT_URL + "/auth");
         Thread.sleep(AuthenticationTestUtils.PAGE_LOAD_DELAY);
     }
-
+// User can login successfully using valid credentials (email and password)
     @Test
     public void successfulLogin() throws InterruptedException {
         WebElement loginField = driver.findElement(By.id("passp-field-login"));
