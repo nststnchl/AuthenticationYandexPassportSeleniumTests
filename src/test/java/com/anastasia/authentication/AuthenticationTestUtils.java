@@ -21,7 +21,13 @@ public class AuthenticationTestUtils {
     public static final String RU_LINK_TEXT = "Ru";
     public static final String NOT_NOW_LINK_TEXT = "Не сейчас";
 
-    public static Properties getProperties() {
+    public static String YANDEX_PASSPORT_URL;
+    public static String CHROME_DRIVER_PATH;
+    public static String EMAIL_SUCCESS_TEST;
+    public static String PASSWORD_SUCCESS_TEST;
+    public static String EMAIL_FAIL_TEST;
+
+    static {
         Properties properties = new Properties();
         File file = new File("src\\test\\resources\\config.properties");
         try {
@@ -29,10 +35,12 @@ public class AuthenticationTestUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return properties;
+        YANDEX_PASSPORT_URL = properties.getProperty("yandex.passport.url");
+        CHROME_DRIVER_PATH = properties.getProperty("chrome.driver.path");
+        EMAIL_SUCCESS_TEST = properties.getProperty("email.success.test");
+        PASSWORD_SUCCESS_TEST = properties.getProperty("password.success.test");
+        EMAIL_FAIL_TEST = properties.getProperty("email.fail.test");
     }
-
-    private AuthenticationTestUtils() { }
 
     public static void checkClickable(WebDriver driver, WebElement webElementToCheck)
     {

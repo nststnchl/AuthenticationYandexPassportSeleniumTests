@@ -13,16 +13,15 @@ public class UnregisteredEmailTest {
 
     @Before
     public void setUp() throws InterruptedException {
-        properties = AuthenticationTestUtils.getProperties();
-        System.setProperty("webdriver.chrome.driver", properties.getProperty("chrome.driver.path"));
+        System.setProperty("webdriver.chrome.driver", AuthenticationTestUtils.CHROME_DRIVER_PATH);
         driver = new ChromeDriver();
-        driver.get(properties.getProperty("main.url") + "/auth");
+        driver.get(AuthenticationTestUtils.YANDEX_PASSPORT_URL + "/auth");
         Thread.sleep(AuthenticationTestUtils.PAGE_LOAD_DELAY);
     }
 
     @Test
     public void nonExistingEmail() throws InterruptedException {
-        driver.findElement(By.id("passp-field-login")).sendKeys(properties.getProperty("email.fail.test"));
+        driver.findElement(By.id("passp-field-login")).sendKeys(AuthenticationTestUtils.EMAIL_FAIL_TEST);
 
         Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
 
