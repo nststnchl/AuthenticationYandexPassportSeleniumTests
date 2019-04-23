@@ -54,7 +54,7 @@ public class SuccessfulLoginTest {
         }
 
         int iterations = 0;
-        while (url.equals(properties.getProperty("main.url") + "/auth/welcome") && iterations < 5)
+        while (!url.equals(properties.getProperty("main.url") + "/profile") && iterations < 5)
         {
             iterations++;
             Thread.sleep(AuthenticationTestUtils.PAGE_RELOAD_DELAY);
